@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
-    "start:dev": "./node_modules/.bin/nodemon ./node_modules/.bin/babel-node .",
+    "start": "./node_modules/.bin/babel-node .",
+    "start:dev": "./node_modules/.bin/forever start -c ./node_modules/.bin/babel-node . --watchDirectory ./src",
     "prepublish": "npm run build",
     "test": "mocha test/**/*.test.js",
     "build": "babel src -d dist -s inline"
@@ -32,6 +32,7 @@
   "dependencies": {
     "blipp": "^3.0.0",
     "boom": "^7.1.1",
+    "forever": "^0.15.3",
     "good": "^8.0.0-rc1",
     "good-console": "^6.4.1",
     "good-squeeze": "^5.0.2",

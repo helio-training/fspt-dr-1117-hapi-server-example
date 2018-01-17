@@ -1,4 +1,5 @@
 import { Server } from 'hapi'
+import Joi from 'joi'
 
 const env = process.env.NODE_ENV || 'development'
 const port = process.env.PORT || 5000
@@ -42,10 +43,10 @@ const defaultPlugins = async (server) => {
       plugin: require('hapi-swagger'),
       options: {
         cors: true,
-        jsonEditor: true,
+        jsonEditor: false,
         documentationPath: '/',
         info: {
-          title: 'Example',
+          title: 'Hapi API',
           version: '1.0.0',
           description: 'An example api',
         },
@@ -75,12 +76,28 @@ export default async () => {
   const server = new Server(options)
 
   await defaultPlugins(server)
+
+  server.route({
+    path: '/login',
+    method: 'POST',
+    options: {
+      validate: {
+        payload: {
+          email: Joi.string().email().required().label('email'),
+          password: Joi.string().min(6).max(128).required().label('password')
+        }
+      },
+      tags: ['api']
+    },
+    handler: async (req, h) => {
+      const { payload } = req
+      console.log(payload)
+
+      return payload
+    }
+  })
+
   await server.initialize()
-
-
-  if (env !== 'testing') {
-
-  }
 
   return server
 }

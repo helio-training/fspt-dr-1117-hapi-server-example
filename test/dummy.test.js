@@ -9,7 +9,7 @@ describe(`initial`, () => {
   })
 
   it(`has valid server`, async () => {
-    const {statusCode} = await server.inject('/')
+    const { statusCode } = await server.inject('/')
     expect(statusCode).to.equal(200)
   })
 })
